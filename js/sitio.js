@@ -47,14 +47,14 @@ function llenarContacto() {
 
 // ---------- Menú ----------
 function iniciarMenu() {
-  const menu = document.getElementById('menu');
+  const menu = document.getElementById('encabezado');
   const boton = document.getElementById('boton-menu');
   const menuMovil = document.getElementById('menu-movil');
   const botonFlotante = document.getElementById('whatsapp-flotante');
 
   // Fondo del menú al bajar
   function alBajar() {
-    menu.classList.toggle('con-fondo', window.scrollY > 40);
+    menu.classList.toggle('con-fondo', window.scrollY > 10 || !menuMovil.classList.contains('hidden'));
     if (botonFlotante) botonFlotante.classList.toggle('translate-y-24', window.scrollY < 400);
   }
   window.addEventListener('scroll', alBajar, { passive: true });
@@ -70,6 +70,7 @@ function iniciarMenu() {
   boton.addEventListener('click', function () {
     const abierto = menuMovil.classList.toggle('hidden') === false;
     boton.setAttribute('aria-expanded', abierto);
+    menu.classList.toggle('con-fondo', abierto || window.scrollY > 10);
     boton.querySelector('use').setAttribute('href', abierto ? '#cerrar' : '#menu');
   });
 }
