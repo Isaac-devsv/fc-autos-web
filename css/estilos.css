@@ -113,14 +113,14 @@
 
 
 /* ---------- Menú ---------- */
-#menu {
-  transition: background-color .4s, border-color .4s;
+#encabezado {
+  transition: background-color .35s, border-color .35s, box-shadow .35s;
 }
 
-#menu.con-fondo {
-  background: rgba(5, 5, 5, .85);
-  backdrop-filter: blur(14px);
+#encabezado.con-fondo {
+  background: #000;
   border-color: rgba(255, 255, 255, .08);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .8);
 }
 
 .menu-link {
