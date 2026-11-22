@@ -53,11 +53,20 @@ function iniciarMenu() {
   const botonFlotante = document.getElementById('whatsapp-flotante');
 
   // Fondo del menú al bajar
-  function alBajar() {
-    menu.classList.toggle('con-fondo', window.scrollY > 10 || !menuMovil.classList.contains('hidden'));
-    if (botonFlotante) botonFlotante.classList.toggle('translate-y-24', window.scrollY < 400);
+  function posicion() {
+    return Math.max(window.scrollY || 0, window.pageYOffset || 0,
+      document.documentElement.scrollTop || 0, document.body.scrollTop || 0);
   }
-  window.addEventListener('scroll', alBajar, { passive: true });
+  function alBajar() {
+    const y = posicion();
+    menu.classList.toggle('con-fondo', y > 10 || !menuMovil.classList.contains('hidden'));
+    if (botonFlotante) botonFlotante.classList.toggle('translate-y-24', y < 400);
+  }
+  window.alBajarMenu = alBajar;
+  ['scroll', 'touchmove', 'resize', 'orientationchange'].forEach(function (ev) {
+    window.addEventListener(ev, alBajar, { passive: true });
+  });
+  document.addEventListener('scroll', alBajar, { passive: true, capture: true });
   alBajar();
 
   // Marcar la página actual
@@ -128,6 +137,7 @@ function iniciarAnimaciones() {
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({ lerp: 0.09 });
     lenis.on('scroll', ScrollTrigger.update);
+    if (window.alBajarMenu) lenis.on('scroll', window.alBajarMenu);
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
   }
