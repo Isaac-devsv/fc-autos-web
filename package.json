@@ -1,0 +1,13 @@
+{
+  "name": "fc-autos-website",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Sitio web de FC Autos",
+  "scripts": {
+    "css": "tailwindcss -i ./css/estilos.css -o ./css/sitio.css --watch",
+    "css:build": "tailwindcss -i ./css/estilos.css -o ./css/sitio.css"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
