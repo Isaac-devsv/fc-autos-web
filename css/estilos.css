@@ -1,0 +1,306 @@
+/*
+  FC AUTOS — estilos
+  Este archivo es el que se edita. Tailwind lo convierte en sitio.css:
+    npm run css        (mientras trabajas)
+    npm run css:build  (una sola vez)
+*/
+
+/* ---------- Tipografía: Archivo ---------- */
+@font-face { font-family: 'Archivo'; font-weight: 100; font-style: normal; font-display: swap; src: url('../assets/fonts/archivo-latin-100-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 100; font-style: italic; font-display: swap; src: url('../assets/fonts/archivo-latin-100-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 400; font-style: italic; font-display: swap; src: url('../assets/fonts/archivo-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 700; font-style: italic; font-display: swap; src: url('../assets/fonts/archivo-latin-700-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 400; font-style: normal; font-display: swap; src: url('../assets/fonts/archivo-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 700; font-style: normal; font-display: swap; src: url('../assets/fonts/archivo-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 900; font-style: normal; font-display: swap; src: url('../assets/fonts/archivo-latin-900-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 900; font-style: italic; font-display: swap; src: url('../assets/fonts/archivo-latin-900-italic.woff2') format('woff2'); }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    background: #050505;
+    color: #EDEBE6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: 'Archivo', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: #FF1627;
+    color: #000;
+  }
+
+  :focus-visible {
+    outline: 2px solid #FF1627;
+    outline-offset: 3px;
+  }
+}
+
+
+/* ---------- Piezas que se repiten ---------- */
+@layer components {
+
+  /* Contenedor centrado */
+  .contenedor {
+    @apply mx-auto w-full max-w-sitio px-5 sm:px-8 lg:px-14;
+  }
+
+  /* Textos */
+  .etiqueta {
+    @apply text-[11px] font-bold uppercase tracking-[0.18em] text-rojo;
+  }
+
+  .titulo {
+    @apply font-black italic uppercase leading-[0.92];
+    letter-spacing: -0.04em;
+  }
+
+  .titulo-xl { @apply titulo text-[clamp(3rem,8vw,8rem)]; }
+  .titulo-lg { @apply titulo text-[clamp(1.6rem,calc(5.5vw+0.4rem),5.5rem)]; }
+  .titulo-md { @apply titulo text-[clamp(1.35rem,3vw,2.8rem)]; }
+
+  .texto {
+    @apply text-base leading-relaxed text-plata sm:text-lg;
+  }
+
+  /* Botones */
+  .boton {
+    @apply inline-flex items-center justify-center gap-3 px-7 py-4 text-[13px] font-bold uppercase leading-none tracking-[0.12em] transition-colors duration-300;
+    text-indent: .12em;
+  }
+
+  .boton-rojo  { @apply boton bg-rojo text-black hover:bg-hueso; }
+  .boton-hueso { @apply boton bg-hueso text-black hover:bg-rojo; }
+  .boton-borde { @apply boton border border-white/25 text-hueso hover:border-rojo hover:text-rojo; }
+  .boton-negro { @apply boton bg-negro text-hueso hover:bg-hueso hover:text-black; }
+  .boton-claro { @apply boton border border-hueso/45 bg-negro/10 text-hueso backdrop-blur-sm hover:border-hueso hover:bg-hueso hover:text-black; }
+
+  .boton svg { @apply h-4 w-4; margin-right: -.08rem; transform: translateY(.5px); }
+
+
+  /* Campo de texto */
+  .campo {
+    @apply w-full border border-white/15 bg-noche px-4 py-3.5 text-hueso outline-none transition-colors placeholder:text-white/30 focus:border-rojo;
+  }
+}
+
+
+/* ---------- Vidrio acanalado (textura de la marca) ---------- */
+.acanalado {
+  position: relative;
+}
+
+.acanalado::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(90deg,
+    rgba(255, 255, 255, .07) 0 1px,
+    transparent 1px 5px,
+    rgba(0, 0, 0, .22) 5px 7px,
+    transparent 7px 9px);
+  mix-blend-mode: overlay;
+}
+
+
+/* ---------- Menú ---------- */
+#menu {
+  transition: background-color .4s, border-color .4s;
+}
+
+#menu.con-fondo {
+  background: rgba(5, 5, 5, .85);
+  backdrop-filter: blur(14px);
+  border-color: rgba(255, 255, 255, .08);
+}
+
+.menu-link {
+  position: relative;
+}
+
+.menu-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: #FF1627;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s;
+}
+
+.menu-link:hover::after,
+.menu-link.actual::after {
+  transform: scaleX(1);
+}
+
+.menu-link.actual {
+  color: #EDEBE6;
+}
+
+
+/* ---------- Logos de marcas en movimiento ---------- */
+.cinta {
+  display: flex;
+  width: max-content;
+  animation: cinta 45s linear infinite;
+}
+
+.cinta:hover {
+  animation-play-state: paused;
+}
+
+@keyframes cinta {
+  to { transform: translateX(-50%); }
+}
+
+.logo-blanco {
+  filter: brightness(0) invert(1);
+}
+
+.difuminar-bordes {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+
+/* ---------- Tarjetas de autos ---------- */
+.tarjeta-auto img {
+  filter: saturate(.85);
+  transition: transform 1s cubic-bezier(.2, .7, .2, 1), filter .6s;
+}
+
+.tarjeta-auto:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.05);
+}
+
+
+/* ---------- Preguntas (acordeón) ---------- */
+.pregunta .respuesta {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .4s ease;
+}
+
+.pregunta .respuesta > div {
+  overflow: hidden;
+}
+
+.pregunta.abierta .respuesta {
+  grid-template-rows: 1fr;
+}
+
+.pregunta .icono {
+  transition: transform .4s, background-color .3s;
+}
+
+.pregunta.abierta .icono {
+  transform: rotate(45deg);
+  background: #FF1627;
+  border-color: #FF1627;
+  color: #000;
+}
+
+
+/* ---------- Animación de entrada ---------- */
+.js .aparecer {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinta { animation: none; }
+  .js .aparecer { opacity: 1; transform: none; }
+}
+
+/* Pantallas muy angostas (menos de 360 px) */
+@media (max-width: 359px) {
+  .titulo-xl { font-size: 2.4rem; }
+}
+
+
+/* ---------- Portada de inicio ---------- */
+.portada-titulo {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: clamp(1.85rem, 4vw, 4.1rem);
+  line-height: .98;
+  letter-spacing: -0.04em;
+  color: #EDEBE6;
+}
+
+.portada-fondo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 60% 55% at 50% 20%, #9c000c 0%, #3d0006 48%, #0e0102 78%, #050505 100%);
+}
+
+.portada-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 12%;
+}
+
+.portada::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 22%;
+  background: linear-gradient(to bottom, transparent, #050505);
+  pointer-events: none;
+}
+
+/* En pantallas verticales se muestra el auto completo */
+@media (max-aspect-ratio: 1/1) {
+  .portada-foto {
+    inset: auto;
+    left: 50%;
+    top: 54%;
+    width: 136vw;
+    height: auto;
+    max-width: none;
+    transform: translate(-50%, -50%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+            mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 72%, transparent 100%);
+  }
+}
+
+@media (max-aspect-ratio: 1/1) and (max-height: 700px) {
+  .portada-foto { top: 62%; width: 118vw; }
+}
+
+/* ---------- Línea de ruta (proceso) ---------- */
+.ruta::before {
+  content: '';
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  left: calc(1.625rem - .5px);
+  width: 1px;
+  background: linear-gradient(to bottom, #FF1627, rgba(237, 235, 230, .12));
+}
+.ruta-punto { position: relative; z-index: 1; }
+
+@media (min-width: 640px) {
+  .ruta::before { left: calc(2rem - .5px); }
+}
+
+/* Foto de Nosotros: empieza a la altura de la palabra "Una" */
+@media (min-width: 1024px) {
+  .nosotros-foto { margin-top: calc(16.5px + 1.5rem + 0.108 * clamp(3rem, 8vw, 8rem)); }
+}
